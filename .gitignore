@@ -2,3 +2,4 @@ node_modules/
 Practice/
 Server/
 Test/
+.env
