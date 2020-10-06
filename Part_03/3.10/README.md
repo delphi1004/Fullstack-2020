@@ -1,4 +1,4 @@
 
-This is for testing https://tranquil-everglades-99981.herokuapp.com/
+This is for testinghttps://excercise-3-10.herokuapp.com/
 
-This is for fetching person's data https://tranquil-everglades-99981.herokuapp.com/api/persons
+This is for fetching person's data https://excercise-3-10.herokuapp.com/api/persons
