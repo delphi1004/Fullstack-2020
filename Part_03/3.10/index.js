@@ -22,10 +22,6 @@ const persons = [
     { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ]
 
-  app.get('/', (req, res) => {
-    res.send('Backend of excercise 3.10')
-  })
-
  app.get('/api/persons', (req,res) =>{
     res.json(persons)
 })
