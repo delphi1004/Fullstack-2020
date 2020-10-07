@@ -17,7 +17,7 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFind
 const Person = mongoose.model('person', noteSchema)
 
 if(process.argv.length === 3){
-    console.log('Phone book')
+    console.log('Phone book excercise 3.12')
     console.log('----------------------------')
     Person.find({}).then(result => {
         result.forEach(person => {
@@ -33,7 +33,7 @@ if(process.argv.length === 3){
         name: personName,
         phone: personPhone
     })
-    
+
     person.save().then(result => {
         console.log(`added ${personName} number ${personPhone} to phonebook`)
         mongoose.connection.close()
