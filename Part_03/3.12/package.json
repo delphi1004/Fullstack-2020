@@ -1,0 +1,13 @@
+{
+  "name": "3.12",
+  "version": "1.0.0",
+  "description": "excercise 3.12",
+  "main": "mongo.js",
+  "scripts": {
+    "start": "node mongo.js",
+    "dev": "nodemon mongo.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
