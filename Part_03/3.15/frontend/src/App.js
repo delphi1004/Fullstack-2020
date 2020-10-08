@@ -5,6 +5,23 @@ import PersonForm from './components/personform'
 import Persons from './components/persons'
 import service from './services/person'
 
+const ShowNotificaitonMessage = ({ msg, resetMessageHandler }) => {
+
+  if (msg === null) {
+    return null
+  }
+
+  setTimeout(() => {
+    resetMessageHandler(null)
+  }, 3000);
+
+  return (
+    <div id='notification'>
+      <h3>{msg}</h3>
+    </div>
+  )
+}
+
 const App = () => {
 
   let personToShow = null
@@ -13,13 +30,14 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [nameFilter, setNameFilter] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
-    console.log('effect')
-    showAllPerson()
+    getAll()
   }, [])
 
-  const showAllPerson = () => {
+  const getAll = () => {
+    console.log('effect')
     service.getAll()
       .then(data => { setPersons(data) })
       .catch(error => { console.log(error) })
@@ -28,18 +46,24 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
 
-    const newPerson = { name: newName, number: newNumber }
+    let newPerson = { name: newName, number: newNumber }
+    
     service.addNewData(newPerson)
       .then(data => {
-        console.log(`${data.name} ${data.number} added`)
-        showAllPerson()
-      })
-      .catch(error => { console.log(error) })
+        setPersons(persons.concat(data));
+        setNotificationMessage('added ' + newName)
+      }).catch(error => { console.log(error) })
 
     setNewName('')
     setNewNumber('')
 
     inputNameRef.current.focus();
+  }
+
+  const deletePerson = (id) => {
+    service.deletePerson(id)
+      .then(() => { setPersons(persons.filter(person => person.id !== id)) })
+      .catch(error => { console.log(error) })
   }
 
   const handlePersonChange = (event) => {
@@ -60,13 +84,14 @@ const App = () => {
     return (
       <div>
         <h2>Phonebook</h2>
+        <ShowNotificaitonMessage msg={notificationMessage} resetMessageHandler={setNotificationMessage} />
         <Filter nameFilter={nameFilter} handleNameFilterChange={handleNameFilterChange} />
 
         <h2>add a new</h2>
         <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handlePersonChange={handlePersonChange} handleNumberChange={handleNumberChange} inputNameRef={inputNameRef} />
 
         <h2>Numbers</h2>
-        <Persons personToShow={personToShow} />
+        <Persons personToShow={personToShow} deletePersonHandler={deletePerson} />
       </div>
     )
   } else {

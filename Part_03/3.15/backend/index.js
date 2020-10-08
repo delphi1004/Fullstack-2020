@@ -42,6 +42,18 @@ function processRestAPI() {
 
         person.save().then(savedPerson => {res.json(savedPerson) })
     })
+
+    app.delete('/api/persons/:id', (request, response) => {
+        Person.findByIdAndRemove(request.params.id)
+          .then(result => {
+            console.log(result)
+            response.status(204).end()
+          })
+          .catch(error => {
+            console.log(error)
+            response.status(404).end()
+          })
+      })
 }
 
 startServer()
