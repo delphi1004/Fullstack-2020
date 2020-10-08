@@ -23,6 +23,11 @@ let persons = [
     { id: 3, name: 'Mary Poppendieck', number: '39-23-6423122' }
 ]
 
+const GenerateId = () => {
+    const maxId = persons.length > 0 ? Math.max(...persons.map(n => n.id)) : 0
+    return maxId + 1
+}
+
 app.get('/api/persons', (req, res) => {
     res.json(persons)
 })
@@ -48,14 +53,22 @@ app.delete('/api/persons/:id', (req, res) => {
         res.json(deletedPerson)
         console.log(deletedPerson)
     }
-    
+
     res.status(204).end()
 })
 
-const GenerateId = () => {
-    const maxId = persons.length > 0 ? Math.max(...persons.map(n => n.id)) : 0
-    return maxId + 1
-}
+app.put('/api/persons/:id', (req, res) => {
+
+    const body = req.body
+
+    if (!body.name) {
+        return res.status(400).json({ error: 'name is empty' })
+    }
+
+    const id = Number(body.id)
+    persons = persons.map(person => person.id === id ? {...person , number:body.number} : person)   
+    res.status(204).end()
+})
 
 app.post('/api/persons', (req, res) => {
     const body = req.body

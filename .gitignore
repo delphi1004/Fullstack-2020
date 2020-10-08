@@ -3,4 +3,5 @@ Practice/
 Server/
 Test/
 Client/
+build/
 .env
