@@ -7,36 +7,48 @@ const Person = require('./models/person')
 
 function InitRestAPI() {
 
-    app.get('/api/persons', (req, res) => {
-        Person.find({}).then(person => { res.json(person) })
+    app.get('/api/persons', (req, res, next) => {
+        Person.find({})
+            .then(persons => { res.json(persons) })
+            .catch(error => { next(error) })
     })
 
     app.get('/api/persons/:id', (req, res, next) => {
 
-        Person.findById(req.params.id).
-            then(person => {
-                console.log(person.toJSON())
-                res.json(person.toJSON())
-            })
+        Person.findById(req.params.id)
+            .then(person => person.toJSON())
+            .then(FormattedPerson => { res.json(FormattedPerson) })
             .catch(error => { next(error) })
     })
 
-    app.post('/api/persons', (req, res) => {
+    app.post('/api/persons', (req, res, next) => {
         const body = req.body
 
         if (body === undefined) {
             return res.status(400).json({ error: 'content missing' })
         }
 
-        const person = Person({
-            name: body.name,
-            number: body.number
-        })
+        Person.findOne({ name: body.name })
+            .then((personFound) => {
+                if (personFound === null) {
 
-        person.save().then(savedPerson => { res.json(savedPerson) })
+                    const newPerson = Person({
+                        name: body.name,
+                        number: body.number
+                    })
+
+                    newPerson.save()
+                        .then(savedPerson => savedPerson.toJSON())
+                        .then(SavedAndFormattedPerson => { res.json(SavedAndFormattedPerson) })
+                        .catch(error => { next(error) })
+                }else{
+                    res.status(400).json({error:`Person ${body.name} is already saved`})
+                }
+            })
+            .catch(error => { next(error) })
     })
 
-    app.put('/api/persons/:id', (req, res) => {
+    app.put('/api/persons/:id', (req, res, next) => {
 
         const body = req.body
 
@@ -46,10 +58,9 @@ function InitRestAPI() {
         }
 
         Person.findByIdAndUpdate(req.params.id, person)
-            .then(updatedPerson => {
-                res.json(updatedPerson)
-            })
-            .catch(error => next(error))
+            .then(updatedPerson => updatedPerson.toJSON())
+            .then(SavedAndUpdatedPerson => { res.json(SavedAndUpdatedPerson) })
+            .catch(error => { next(error) })
     })
 
     app.delete('/api/persons/:id', (req, res, next) => {

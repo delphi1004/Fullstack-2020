@@ -33,28 +33,39 @@ const App = () => {
   const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
-    console.log('effect')
-      service.getAll()
-        .then(data => { setPersons(data) })
-        .catch(error => { console.log(error) })
+    getAll()
   }, [])
+
+  const getAll = () => {
+    console.log('effect')
+    service.getAll()
+      .then(data => { setPersons(data) })
+      .catch(error => { console.log(error) })
+  }
 
   const addPerson = (event) => {
     event.preventDefault()
-    const existed = persons.findIndex(person => person.name === newName)
+    const personExisted = persons.findIndex(person => person.name === newName)
     const numberExsited = persons.findIndex(person => person.number === newNumber && person.name === newName)
 
-    if (existed < 0) {
+    if (personExisted < 0) {
       let newPerson = { name: newName, number: newNumber }
         service.addNewData(newPerson)
-        .then(data => {setNotificationMessage('added '+newName); setPersons(persons.concat(data)) })
-        .catch(error => { console.log(error) })
+        .then(data => {
+          setPersons(persons.concat(data)); 
+          setNotificationMessage('added '+newName)
+        }).catch(error => {setNotificationMessage(error.message)})
     }else if (numberExsited < 0){
       if (window.confirm(newName+"is already added to phonebook,replace old number with a new one?")) {
-        const changedPerson = {...persons[existed] , number: newNumber}
+        const changedPerson = {...persons[personExisted] , number: newNumber}
         service.updateData(changedPerson)
-        .then(data => setPersons(persons.map(person => person.id !== changedPerson.id ? person : changedPerson)))
-        .catch(error => { console.log(error) })
+        .then(data => {
+          setPersons(persons.map(person => person.id !== changedPerson.id ? person : changedPerson));
+          setNotificationMessage(`${newName}'s phone number has changed to ${newNumber}`)
+        }).catch(error => {
+          setNotificationMessage(error.message);
+          getAll()
+        })
       } 
     }else{
       alert(`${newName} is already added to phonebook`)
