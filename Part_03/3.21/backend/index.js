@@ -14,7 +14,6 @@ function InitRestAPI() {
     })
 
     app.get('/api/persons/:id', (req, res, next) => {
-
         Person.findById(req.params.id)
             .then(person => person.toJSON())
             .then(FormattedPerson => { res.json(FormattedPerson) })
