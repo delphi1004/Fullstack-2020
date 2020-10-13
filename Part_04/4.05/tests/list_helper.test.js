@@ -47,7 +47,7 @@ describe('favoriteBlog', () => {
             likes: 12
         }
 
-        expect(expectBlog).toEqual(listHelper.favoriteBlog(blogList))
+        expect(listHelper.favoriteBlog(blogList)).toEqual(expectBlog)
     })
 })
 
