@@ -4,27 +4,32 @@ const app = require('../app')
 const logger = require('../utils/logger')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const Helper = require('./test_helper')
 
 beforeEach(async () => {
-    await Blog.deleteMany({})
-    console.log('cleared')
-    const blogObject = Helper.initialBlogs.map(blog => new Blog(blog))
-    const promiseArray = blogObject.map(blog => blog.save())
-    await Promise.all(promiseArray)
+
+    console.log('Users and Blogs are cleared')
+
+    await Helper.CreateNewUsers()
+    await Helper.CreateNewBlogs()
 })
 
 describe('when there is initially some blogs saved', () => {
 
     test('blogs are returned as json', async () => {
-        await api
+        const response = await api
             .get('/api/blogs')
             .expect(200)
             .expect('Content-Type', /application\/json/)
     })
 
     test('all blogs are returned', async () => {
-        const response = await api.get('/api/blogs')
+        const response = await api
+            .get('/api/blogs')
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
         expect(response.body).toHaveLength(Helper.initialBlogs.length)
     })
 })
@@ -50,13 +55,15 @@ describe('addition of a new blog', () => {
             likes: 10
         }
 
-        const savedBlog = await Helper.SaveBlog(newBlog)
+        const loggedUser = await Helper.SelectRandomUser()
+        const savedBlog = await Helper.SaveBlog(newBlog, loggedUser)
 
         // verify the blogs count incresed
         const blogsAtEnd = await Helper.BlogsInDb()
         expect(blogsAtEnd).toHaveLength(Helper.initialBlogs.length + 1)
 
         // the blog post is saved correctly
+        newBlog.user = loggedUser.id
         delete savedBlog.body.id
         expect(savedBlog.body).toEqual(newBlog)
     })
@@ -69,14 +76,16 @@ describe('addition of a new blog', () => {
             url: "https://natureofcode.com/",
         }
 
-        const savedBlog = await Helper.SaveBlog(newBlog)
+        const loggedUser = await Helper.SelectRandomUser()
+        const savedBlog = await Helper.SaveBlog(newBlog, loggedUser)
 
         // verify the blogs count incresed
         const blogsAtEnd = await Helper.BlogsInDb()
         expect(blogsAtEnd).toHaveLength(Helper.initialBlogs.length + 1)
 
         // the blog post is saved correctly
-        newBlog.likes = 0
+        newBlog.user = loggedUser.id
+        newBlog.likes = savedBlog.body.likes
         delete savedBlog.body.id
         expect(savedBlog.body).toEqual(newBlog)
     })
@@ -88,7 +97,9 @@ describe('addition of a new blog', () => {
             like: 10
         }
 
+        const loggedUser = await Helper.SelectRandomUser()
         const savedBlog = await api.post('/api/blogs')
+            .set('Authorization', 'Bearer ' + loggedUser.token)
             .send(newBlog)
             .expect(400)
     })
@@ -98,33 +109,85 @@ describe('deletion of a blog', () => {
 
     test('succeeds with status code 204 if id is valid', async () => {
         const blogsAtStart = await Helper.BlogsInDb()
-        const blogToDelete = blogsAtStart[0]
+        const users = await Helper.usersInDb()
+        let userHasBlog
 
-        await api
-            .delete(`/api/blogs/${blogToDelete.id}`)
+        users.forEach(user => {
+            if (user.blogs.length > 0) {
+                userHasBlog = user
+                return
+            }
+        })
+
+        const targetUser = Helper.initialUsers.find(user => user.username === userHasBlog.username ? user : null)
+        const user = {
+            username: targetUser.username,
+            password: targetUser.password,
+        }
+
+        const foundBlog = await Blog.findById(userHasBlog.blogs[0])
+        const blogToDelete = {
+            author: foundBlog.author,
+            id: foundBlog.id,
+            likes: foundBlog.likes,
+            title: foundBlog.title,
+            url: foundBlog.url,
+            user: foundBlog.user
+        }
+
+        const blogCountAtStart = userHasBlog.blogs.length
+        const loggedUser = await Helper.UserLogIn(user)
+
+        await api.delete(`/api/blogs/${userHasBlog.blogs[0]}`)
+            .set('Authorization', 'Bearer ' + loggedUser.token)
             .expect(204)
 
         const blogsAtEnd = await Helper.BlogsInDb()
         expect(blogsAtEnd).toHaveLength(Helper.initialBlogs.length - 1)
         expect(blogsAtEnd).not.toContain(blogToDelete)
 
-        console.log(blogToDelete)
+        const userAtEnd = await User.findById(foundBlog.user)
+        expect(userAtEnd.blogs).toHaveLength(blogCountAtStart - 1)
     })
 })
 
 describe('updating of a blog', () => {
 
     test('succeeds with status code 204 if blog is updated', async () => {
-        const blogsAtStart = await Helper.BlogsInDb()
-        const targetBlog = blogsAtStart[0]
-        const blogToUpdate = { ...targetBlog, likes: targetBlog.likes + 10 }
+        const users = await Helper.usersInDb()
+        let userHasBlog
 
-        const updatedLikes = (await api
-            .put(`/api/blogs/${targetBlog.id}`)
+        users.forEach(user => {
+            if (user.blogs.length > 0) {
+                userHasBlog = user
+                return
+            }
+        })
+
+        const targetUser = Helper.initialUsers.find(user => user.username === userHasBlog.username ? user : null)
+        const user = {
+            username: targetUser.username,
+            password: targetUser.password,
+        }
+
+        const foundBlog = await Blog.findById(userHasBlog.blogs[0])
+        const blogCountAtStart = userHasBlog.blogs.length
+        const blogToUpdate = {
+            author: foundBlog.author,
+            id: foundBlog.id,
+            likes: foundBlog.likes + 10,
+            title: foundBlog.title,
+            url: foundBlog.url,
+            user: foundBlog.user
+        }
+
+        const loggedUser = await Helper.UserLogIn(user)
+        const updatedBlog = await api.put(`/api/blogs/${userHasBlog.blogs[0]}`)
+            .set('Authorization', 'Bearer ' + loggedUser.token)
             .send(blogToUpdate)
-            .expect(200)).body.likes
+            .expect(200)
 
-        expect(updatedLikes).toEqual(blogToUpdate.likes)
+        expect(blogToUpdate.likes).toEqual(updatedBlog.body.likes)
     })
 })
 

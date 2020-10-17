@@ -9,14 +9,7 @@ const Helper = require('./test_helper')
 
 beforeEach(async () => {
     console.log('clear users and add several users')
-    await User.deleteMany({})
-
-    const userObject = Helper.initialUsers.map(user => {
-        return new User({ ...user, passwordHash: Helper.GetPasswordHash(user.password) })
-    })
-
-    const promiseArray = userObject.map(user => user.save())
-    await Promise.all(promiseArray)
+    await Helper.CreateNewUsers()
 })
 
 describe('Testing for adding user(s)', () => {
@@ -117,14 +110,10 @@ describe('Testing for user logging', () => {
             password: selectedUser.password
         }
 
-        const result = await api
-            .post('/api/login')
-            .send(user)
-            .expect(200)
-            .expect('Content-Type', /application\/json/)
+        const result = await Helper.UserLogIn(user)
     
-        expect(result.body.username).toBe(selectedUser.username)
-        expect(result.body.name).toBe(selectedUser.name)
+        expect(result.username).toBe(selectedUser.username)
+        expect(result.name).toBe(selectedUser.name)
     })
 
     test('invalid login with empty password', async () => {

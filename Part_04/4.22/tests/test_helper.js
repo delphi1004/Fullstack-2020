@@ -1,3 +1,4 @@
+const _ = require("lodash");
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const supertest = require('supertest')
@@ -19,11 +20,51 @@ const initialUsers = [
     { username: 'delphi1004', name: 'John Lee', password: '1234' },
     { username: 'apple', name: 'David Young', password: '12345' },
     { username: 'orange', name: 'Jane Fonda', password: '123456' },
-    { username: 'silver', name: 'R2D2', password: '1234567' }    
+    { username: 'silver', name: 'R2D2', password: '1234567' }
 ]
 
+const CreateNewUsers = async () => {
+    await User.deleteMany({})
+
+    const userObject = initialUsers.map(user => {
+        return new User({ ...user, passwordHash: GetPasswordHash(user.password) })
+    })
+
+    const promiseArray = userObject.map(user => user.save())
+    await Promise.all(promiseArray)
+}
+
+const CreateNewBlogs = async () => {
+    await Blog.deleteMany({})
+    const user = await usersInDb()
+
+    const blogObject = initialBlogs.map(blog => {
+        const userIndex = Math.floor(Math.random() * initialUsers.length)
+        return new Blog({ ...blog, user: user[userIndex].id })
+    })
+
+    const blogsPromiseArray = blogObject.map(blog => blog.save())
+    await Promise.all(blogsPromiseArray)
+
+    const userHasBlogs = _.chain(blogObject)
+        .groupBy("user")
+        .map((value, key) => {
+            return { userId: key, blogId: value.map(blog => blog.id) }
+        })
+        .value()
+
+    const userObject = userHasBlogs.map(async (user) => {
+        const foundUser = await User.findById(user.userId);
+        foundUser.blogs = user.blogId
+        await foundUser.save()
+        return foundUser
+    })
+
+    await Promise.all(userObject)
+}
+
 const GetPasswordHash = (password) => {
-    return bcrypt.hashSync(password, 10) 
+    return bcrypt.hashSync(password, 10)
 }
 
 const BlogsInDb = async () => {
@@ -36,13 +77,40 @@ const usersInDb = async () => {
     return users.map(u => u.toJSON())
 }
 
-const SaveBlog = (newBlog) => {
-    return api.post('/api/blogs')
+const UserLogIn = async (user) => {
+    const result = await api
+        .post('/api/login')
+        .send(user)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+    return result.body
+}
+
+const SelectRandomUser = async () => {
+    const userIndex = Math.floor(Math.random() * initialUsers.length)
+    const selectedUser = initialUsers[userIndex]
+    const user = {
+        username: selectedUser.username,
+        password: selectedUser.password,
+    }
+
+    const loggedUser = await UserLogIn(user)
+
+    return loggedUser
+}
+
+const SaveBlog = async (newBlog, loggedUser) => {
+
+    const result = await api.post('/api/blogs')
+        .set('Authorization', 'Bearer ' + loggedUser.token)
         .send(newBlog)
         .expect(200)
         .expect('Content-Type', /application\/json/)
+
+    return result
 }
 
 module.exports = {
-    initialBlogs, initialUsers , GetPasswordHash, BlogsInDb, SaveBlog, usersInDb
+    initialBlogs, initialUsers, GetPasswordHash, BlogsInDb, SaveBlog, usersInDb,
+    CreateNewUsers, CreateNewBlogs, UserLogIn, SelectRandomUser
 }

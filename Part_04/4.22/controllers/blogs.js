@@ -4,7 +4,7 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 blogsRouter.get('/', async (req, res) => {
-  const blogs = await Blog.find().populate('user', { username: 1, name: 1 })
+  const blogs = await Blog.find({})
   res.json(blogs)
 })
 
@@ -22,15 +22,16 @@ blogsRouter.post('/', async (req, res, next) => {
   let blogLikes = 0
   const response401 = (res) => res.status(401).json({ error: 'token missing or invalid' })
 
-  if(!req.token){
+  if (!req.token) {
     return response401(res)
   }
-  
+
   const decodedToken = jwt.verify(req.token, process.env.SECRET)
 
   if (!req.token || !decodedToken.id) {
     return response401(res)
   }
+
   const user = await User.findById(decodedToken.id)
 
   if (body.likes !== undefined) {
@@ -60,27 +61,36 @@ blogsRouter.delete('/:id', async (req, res, next) => {
   let blogLikes = 0
   const response401 = (res) => res.status(401).json({ error: 'token missing or invalid' })
 
-  if(!req.token){
-    return response401(res)
-  }
-  
-  const user = jwt.verify(req.token, process.env.SECRET)
-
-  if (!req.token || !user.id) {
+  if (!req.token) {
     return response401(res)
   }
 
+  const decodedToken = jwt.verify(req.token, process.env.SECRET)
+
+  if (!req.token || !decodedToken.id) {
+    return response401(res)
+  }
+
+  const user = await User.findById(decodedToken.id)
   const blog = await Blog.findById(req.params.id)
 
-  if(!blog){
-    res.status(400).json({error:`can't find the blog`})
+  if (!blog) {
+    res.status(400).json({ error: `can't find the blog` })
   }
 
-  if (blog.user.toString() === user.id.toString()){
+  if (blog.user.toString() === user.id.toString()) {
     await blog.remove()
-  }
 
-  res.status(204).end()
+    const targetBlogIndex = user.blogs.filter((blog, index) => blog.toString() === req.params.id ? index : -1)
+
+    if (targetBlogIndex != -1) {
+      user.blogs.splice(targetBlogIndex, 1)
+      await user.save()
+      res.status(204).end()
+    } else {
+      res.status(404).json({ error: `can't find the blog in user` })
+    }
+  }
 })
 
 blogsRouter.put('/:id', async (req, res, next) => {
