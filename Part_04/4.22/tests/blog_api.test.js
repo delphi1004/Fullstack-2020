@@ -32,6 +32,14 @@ describe('when there is initially some blogs saved', () => {
 
         expect(response.body).toHaveLength(Helper.initialBlogs.length)
     })
+
+    test('user blogs returned', async () => {
+        const loggedUser = await Helper.SelectRandomUser()
+        const response = await api
+            .get(`/api/blogs/${loggedUser.id.toString()}`)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+    })
 })
 
 describe('viewing a specific blog', () => {

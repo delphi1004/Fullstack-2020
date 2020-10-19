@@ -16,11 +16,11 @@ const initialBlogs = [
 ]
 
 const initialUsers = [
-    { username: 'root', name: 'Superuser', password: '123' },
+    { username: 'root', name: 'Superuser', password: '1234' },
     { username: 'delphi1004', name: 'John Lee', password: '1234' },
-    { username: 'apple', name: 'David Young', password: '12345' },
-    { username: 'orange', name: 'Jane Fonda', password: '123456' },
-    { username: 'silver', name: 'R2D2', password: '1234567' }
+    { username: 'apple', name: 'David Young', password: '1234' },
+    { username: 'orange', name: 'Jane Fonda', password: '1234' },
+    { username: 'silver', name: 'R2D2', password: '1234' }
 ]
 
 const CreateNewUsers = async () => {

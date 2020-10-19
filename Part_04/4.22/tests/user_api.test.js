@@ -10,6 +10,7 @@ const Helper = require('./test_helper')
 beforeEach(async () => {
     console.log('clear users and add several users')
     await Helper.CreateNewUsers()
+    await Helper.CreateNewBlogs()
 })
 
 describe('Testing for adding user(s)', () => {
