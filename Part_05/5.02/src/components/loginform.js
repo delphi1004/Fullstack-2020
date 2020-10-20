@@ -12,12 +12,10 @@ const LoginForm = ({setUserHandler, setNotificationMessage}) => {
         try {
             const user = await LoginService.login({ username, password })
             console.log('logging in with', user)
-           
             setUsername('')
             setPassword('')
             setUserHandler(user)
         } catch (exception) {
-            console.log('hahaha')
            setNotificationMessage('Wrong credentials')
         }
     }

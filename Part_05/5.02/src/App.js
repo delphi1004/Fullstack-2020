@@ -30,14 +30,32 @@ const App = () => {
 
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      BlogService.setToken(user.token)
+      setUserHandler(user)
+    }
+  }, [])
+
   const setNotificationHandler = (message) => {
     setNotificationMessage(message)
   }
 
   const setUserHandler = (user) => {
+    window.localStorage.setItem(
+      'loggedNoteappUser', JSON.stringify(user)
+    )
+
     setUser(user)
     BlogService.setToken(user.token)
     BlogService.getUserBlog(user.id).then(blogs => setBlogs(blogs))
+  }
+
+  const logoutHandler = () => {
+    setUser(null)
+    window.localStorage.clear()
   }
 
   if (user === null) {
@@ -52,7 +70,8 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <h3>{user.name} logged in</h3>
+      <h3>{user.name} logged in <button onClick={logoutHandler}>logout</button></h3>
+
       {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
     </div>
   )
