@@ -3,6 +3,7 @@ import Blog from './components/blog'
 import BlogService from './services/blogs'
 import './App.css'
 import LoginForm from './components/loginform'
+import NewBlogForm from './components/newblogform'
 
 const ShowNotificaitonMessage = ({ msg, resetMessageHandler }) => {
 
@@ -35,7 +36,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       BlogService.setToken(user.token)
-      setUserHandler(user)
+      userLoggedinHandler(user)
     }
   }, [])
 
@@ -43,7 +44,7 @@ const App = () => {
     setNotificationMessage(message)
   }
 
-  const setUserHandler = (user) => {
+  const userLoggedinHandler = (user) => {
     window.localStorage.setItem(
       'loggedBlogappUser', JSON.stringify(user)
     )
@@ -51,6 +52,10 @@ const App = () => {
     setUser(user)
     BlogService.setToken(user.token)
     BlogService.getUserBlog(user.id).then(blogs => setBlogs(blogs))
+  }
+
+  const blogAddedHandler = (blog) =>{
+    setBlogs(blogs.concat(blog))
   }
 
   const logoutHandler = () => {
@@ -62,16 +67,17 @@ const App = () => {
     return (
       <div>
         <ShowNotificaitonMessage msg={notificationMessage} resetMessageHandler={setNotificationMessage} />
-        <LoginForm setUserHandler={setUserHandler} setNotificationMessage={setNotificationHandler} />
+        <LoginForm setUserHandler={userLoggedinHandler} setNotificationMessage={setNotificationHandler} />
       </div>
     )
   }
 
   return (
     <div>
+      <ShowNotificaitonMessage msg={notificationMessage} resetMessageHandler={setNotificationMessage} />
       <h2>blogs</h2>
       <h3>{user.name} logged in <button onClick={logoutHandler}>logout</button></h3>
-
+      <NewBlogForm blogAddedHandler = {blogAddedHandler} setNotificationMessage={setNotificationHandler}/>
       {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
     </div>
   )
