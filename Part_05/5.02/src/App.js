@@ -35,7 +35,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       BlogService.setToken(user.token)
-      setUserHandler(user)
+      userLoggedinHandler(user)
     }
   }, [])
 
@@ -43,14 +43,15 @@ const App = () => {
     setNotificationMessage(message)
   }
 
-  const setUserHandler = (user) => {
+  const userLoggedinHandler = async (user) => {
     window.localStorage.setItem(
       'loggedBlogappUser', JSON.stringify(user)
     )
 
     setUser(user)
     BlogService.setToken(user.token)
-    BlogService.getUserBlog(user.id).then(blogs => setBlogs(blogs))
+    const blogs = await BlogService.getUserBlog(user.id)
+    setBlogs(blogs)
   }
 
   const logoutHandler = () => {
@@ -62,7 +63,7 @@ const App = () => {
     return (
       <div>
         <ShowNotificaitonMessage msg={notificationMessage} resetMessageHandler={setNotificationMessage} />
-        <LoginForm setUserHandler={setUserHandler} setNotificationMessage={setNotificationHandler} />
+        <LoginForm userLoggedinHandler={userLoggedinHandler} setNotificationMessage={setNotificationHandler} />
       </div>
     )
   }

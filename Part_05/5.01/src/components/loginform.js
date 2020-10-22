@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import LoginService from '../services/login'
 
-const LoginForm = ({setUserHandler, setNotificationMessage}) => {
+const LoginForm = ({userLoggedinHandler, setNotificationMessage}) => {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -15,7 +15,7 @@ const LoginForm = ({setUserHandler, setNotificationMessage}) => {
            
             setUsername('')
             setPassword('')
-            setUserHandler(user)
+            userLoggedinHandler(user)
         } catch (exception) {
             console.log('hahaha')
            setNotificationMessage('Wrong credentials')

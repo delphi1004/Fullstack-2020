@@ -34,17 +34,18 @@ const App = () => {
     setNotificationMessage(message)
   }
 
-  const setUserHandler = (user) => {
+  const userLoggedinHandler = async (user) => {
     setUser(user)
     BlogService.setToken(user.token)
-    BlogService.getUserBlog(user.id).then(blogs => setBlogs(blogs))
+    const blogs = await BlogService.getUserBlog(user.id)
+    setBlogs(blogs)
   }
 
   if (user === null) {
     return (
       <div>
         <ShowNotificaitonMessage msg={notificationMessage} resetMessageHandler={setNotificationMessage} />
-        <LoginForm setUserHandler={setUserHandler} setNotificationMessage={setNotificationHandler} />
+        <LoginForm userLoggedinHandler={userLoggedinHandler} setNotificationMessage={setNotificationHandler} />
       </div>
     )
   }
