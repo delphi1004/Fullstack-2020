@@ -59,10 +59,8 @@ describe('Blog app', function () {
             cy.contains(`${user.name} logged in`)
             cy.addblog(blog)
         })
-    })
 
-    describe('When logged in', function () {
-        it('A blog can be created', function () {
+        it('A blog can be liked', function () {
             cy.contains(`${user.name} logged in`)
             cy.addblog(blog)
             cy.contains('view').click()

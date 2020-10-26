@@ -47,13 +47,12 @@ const App = () => {
             'loggedBlogappUser', JSON.stringify(user)
         )
 
-        setUser(user)
-        BlogService.setToken(user.token)
-
         try {
             const blogs = await BlogService.getUserBlog(user.id)
             blogs.sort((a, b) => b.likes - a.likes)
             setBlogs(blogs)
+            BlogService.setToken(user.token)
+            setUser(user)
         } catch (exception) {
             setNotificationMessage(exception.response.data.error)
         }

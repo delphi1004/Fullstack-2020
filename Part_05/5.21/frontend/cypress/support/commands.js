@@ -35,9 +35,7 @@ Cypress.Commands.add('login', (user) => {
 })
 
 Cypress.Commands.add('logout', () => {
-    if (cy.contains('logout')) {
-        cy.contains('logout').click()
-    }
+    cy.contains('logout').click()
 })
 
 Cypress.Commands.add('addblogDirectly', (blog) => {
@@ -60,5 +58,4 @@ Cypress.Commands.add('addblog', (blog) => {
     cy.get('#url').type(blog.url)
     cy.contains('create').click()
 })
-
 

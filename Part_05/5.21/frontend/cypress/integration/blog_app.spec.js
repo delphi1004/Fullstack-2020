@@ -7,7 +7,7 @@ const user = {
 }
 
 const blogs = [
-    { title: 'React patterns', author: 'Michael Chan', url: 'https://reactpatterns.com/', likes: 0 },
+    { title: 'React patterns', author: 'Michael Chan', url: 'https://reactpatterns.com/', likes: 10 },
     { title: 'Go To Statement Considered Harmful', author: 'Edsger W. Dijkstra', url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html', likes: 5 },
     { title: 'Canonical string reduction', author: 'Edsger W. Dijkstra', url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html', likes: 12 },
     { title: 'First class tests', author: 'Robert C. Martin', url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll', likes: 10 },
@@ -62,30 +62,27 @@ describe('Blog app', function () {
             cy.contains(blogs[0].title)
             cy.contains(blogs[1].title)
         })
-    })
 
-    describe('When logged in', function () {
         it('A blog can be liked', function () {
             cy.contains(`${user.name} logged in`)
             cy.addblogDirectly(blogs[0])
             cy.visit('http://localhost:3000')
             cy.contains('view').click()
             cy.contains('like').click()
-            cy.contains('1 like')
+            cy.contains(`${blogs[0].likes + 1} like`)
         })
-    })
 
-    describe('When logged in', function () {
-        it('user can delete it', function () {
+        it('A blog can be deleted', function () {
             cy.contains(`${user.name} logged in`)
             cy.addblogDirectly(blogs[0])
+            cy.addblogDirectly(blogs[1])
             cy.visit('http://localhost:3000')
             cy.contains('view').click()
             cy.contains('remove').click()
-            cy.contains(`${blogs[0].title} removed`)
+            cy.contains('removed')
         })
 
-        it('wrong user can not delete it', function () {
+        it('A blog can not be deleted by wrong user', function () {
             cy.addblogDirectly(blogs[0])
             cy.addblogDirectly(blogs[1])
             cy.visit('http://localhost:3000')
@@ -106,3 +103,4 @@ describe('Blog app', function () {
         })
     })
 })
+

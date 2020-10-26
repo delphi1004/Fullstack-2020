@@ -41,7 +41,6 @@ Cypress.Commands.add('logout', () => {
 })
 
 Cypress.Commands.add('addblog', (blog) => {
-    cy.wait(500)
     cy.contains('new blog').click()
     cy.get('#title').type(blog.title)
     cy.get('#author').type(blog.author)
