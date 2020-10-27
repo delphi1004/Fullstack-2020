@@ -102,5 +102,19 @@ describe('Blog app', function () {
             cy.visit('http://localhost:3000')
         })
     })
+
+    describe('Blogs are ordered', function () {
+
+        it('according to likes with the blog.5.22', function () {
+            blogs.sort((a, b) => b.likes - a.likes)
+
+            blogs.forEach(blog => { cy.addblogDirectly(blog) })
+            cy.visit('http://localhost:3000')
+
+            cy.get('.blog_title_author').each((title, index) => {
+                cy.expect(title.text()).to.equal(`${blogs[index].title}, ${blogs[index].author}`)
+            })
+        })
+    })
 })
 
