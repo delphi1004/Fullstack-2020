@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { newAnecdote } from '../reducers/anecdoteReducer'
 
-const AddAnecdote = ({ setNotificationMessage }) => {
+const AddAnecdote = () => {
 
     const [anecdote, setAnecdote] = useState('')
     const dispatch = useDispatch()
@@ -10,7 +10,6 @@ const AddAnecdote = ({ setNotificationMessage }) => {
     const handleAddAnecdote = (event) => {
         event.preventDefault()
         dispatch(newAnecdote(anecdote))
-        setNotificationMessage(`${anecdote} added`)
         setAnecdote('')
     }
 
