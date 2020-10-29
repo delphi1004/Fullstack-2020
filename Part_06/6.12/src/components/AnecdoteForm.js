@@ -4,15 +4,14 @@ import { newAnecdote } from '../reducers/anecdoteReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
 const AddAnecdote = () => {
-
-    const [anecdote, setAnecdote] = useState('')
     const dispatch = useDispatch()
 
     const handleAddAnecdote = (event) => {
         event.preventDefault()
+        const anecdote = event.target.anecdote.value
+        event.target.anecdote.value = ''
         dispatch(newAnecdote(anecdote))
         dispatch(setNotification(`You added '${anecdote}'`))
-        setAnecdote('')
     }
 
     return (
@@ -20,7 +19,7 @@ const AddAnecdote = () => {
             <h2>create new</h2>
             <form onSubmit={handleAddAnecdote}>
                 <div>
-                    <input type="text" value={anecdote} onChange={(event) => setAnecdote(event.target.value)} />
+                    <input name="anecdote" />
                     <button type="submit">create</button>
                 </div>
             </form>
