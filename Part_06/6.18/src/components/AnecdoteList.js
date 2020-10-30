@@ -23,6 +23,7 @@ const AnecdoteList = () => {
       anecdote.content.includes(filter)
     )
   )
+  anecdotes.sort((a, b) => b.votes - a.votes)
 
   const handleVote = (anecdote) => {
     dispatch(voteAnecdote(anecdote))
