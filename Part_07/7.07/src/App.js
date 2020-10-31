@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import './App.css';
+import { useField , useCountry } from './hooks'
 
 const ShowWeather = ({ capitalName }) => {
-
+ 
   const [weatherData, setWeatherData] = useState()
-
-  console.log('ShowWeather')
 
   useEffect(() => {
     const api_key = process.env.REACT_APP_API_KEY
@@ -74,33 +73,13 @@ const ShowCountries = ({ foundCountries }) => {
 }
 
 function App() {
-
-  const [countries, setCountries] = useState([])
-  const [findName, setFindName] = useState('')
-
-  useEffect(() => {
-    console.log('effect')
-    axios
-      .get('https://restcountries.eu/rest/v2/all')
-      .then(response => {
-        setCountries(response.data)
-        console.log("fetch is done")
-      })
-  }, [])
-
-  const findCountries = (event) => {
-    setFindName(event.target.value)
-    console.log(findName)
-  }
-
-  const foundCountries = countries.filter(data => data.name.toUpperCase().includes(findName.toUpperCase()))
+  const nameInput = useField('text')
+  const country = useCountry(nameInput.value)
 
   return (
     <div>
-      <form>
-        find countries <input value={findName} onChange={findCountries} />
-      </form>
-      {findName.length > 0 && foundCountries.length > 0 && <ShowCountries foundCountries={foundCountries} />}
+      find countries <input {...nameInput} />
+      {nameInput.value.length > 0 && country.length > 0 && <ShowCountries foundCountries={country} />}
     </div>
   )
 }
