@@ -19,15 +19,17 @@ export const useCountry = (name) => {
   const [countries, setCountries] = useState([])
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get(`https://restcountries.eu/rest/v2/name/${name}`)
-      .then(response => {
-        setCountries(response.data)
-        console.log("fetch is done", response.data)
-      }).catch(error => {
-        console.log(error.response.data.error)
-      })
+    console.log('effect', name)
+    if (name.length > 0) {
+      axios
+        .get(`https://restcountries.eu/rest/v2/name/${name}`)
+        .then(response => {
+          setCountries(response.data)
+        }).catch(error => {
+          console.log(error.response.data.error)
+          setCountries(undefined)
+        })
+    }
   }, [name])
 
   return countries

@@ -6,17 +6,22 @@ const ShowWeather = ({ capitalName }) => {
 
   const [weatherData, setWeatherData] = useState()
 
-  console.log('ShowWeather')
-
   useEffect(() => {
     const api_key = process.env.REACT_APP_API_KEY
     const weatherQuery = 'http://api.weatherstack.com/current?access_key=' + api_key + '&query=' + capitalName
+
     axios
       .get(weatherQuery)
       .then(response => {
-        console.log(response.data)
-        setWeatherData(response.data)
+        if (response.data.current !== undefined) {
+          setWeatherData(response.data)
+        }else{
+          setWeatherData(null)
+        }
+      }).catch(error => {
+        console.log(error)
       })
+
   }, [capitalName])
 
   return (
