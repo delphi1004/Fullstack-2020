@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 
 export const useField = (type) => {
   const [value, setValue] = useState('')
+  const placeholder = 'type country name'
 
   const onChange = (event) => {
     setValue(event.target.value)
@@ -11,6 +12,7 @@ export const useField = (type) => {
   return {
     type,
     value,
+    placeholder,
     onChange
   }
 }

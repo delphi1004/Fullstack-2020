@@ -33,7 +33,6 @@ const App = () => {
         const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON)
-            BlogService.setToken(user.token)
             userLoggedinHandler(user)
         }
     }, [])
@@ -48,10 +47,11 @@ const App = () => {
         )
 
         try {
+            BlogService.setToken(user.token)
+            console.log(`${user.name} has logged in`)
             const blogs = await BlogService.getUserBlog(user.id)
             blogs.sort((a, b) => b.likes - a.likes)
             setBlogs(blogs)
-            BlogService.setToken(user.token)
             setUser(user)
         } catch (exception) {
             setNotificationMessage(exception.response.data.error)
