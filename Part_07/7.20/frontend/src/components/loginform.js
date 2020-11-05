@@ -91,26 +91,14 @@ const LoginForm = () => {
   // )
 
   return (
-  // <FormControl className={classes.root} noValidate autoComplete='off' onSubmit={handleLogin}>
-  //   <TextField required
-  //     id='standard-required'
-  //     label='user name'
-  //     value={username}
-  //     onChange={({ target }) => setUsername(target.value)} />
-  //   <TextField required
-  //     id='standard-password-required'
-  //     label='password'
-  //     type='password'
-  //     autoComplete='current-password'
-  //     value={password}
-  //     onChange={({ target }) => setPassword(target.value)}
-  //   />
-  //   <Button onClick={handleLogin}>login</Button>
-  // </FormControl>
-
-    <TableContainer component={Paper} elevation={3} style={{ marginLeft: 30, marginTop: 50, width: 250, height: 250 }}>
-      <Table className={classesTable.table} aria-label="simple table">
+    <TableContainer component={Paper} elevation={3} style={{ marginLeft: 30, marginTop: 50, width: 248, height: 200 }}>
+      <Table className={classesTable.table} size='small' aria-label="login table">
         <TableBody>
+          <TableRow>
+            <TableCell component="th" scope="row">
+              {' '}
+            </TableCell>
+          </TableRow>
           <TableRow>
             <TableCell component="th" scope="row">
               <TextField required
@@ -132,9 +120,9 @@ const LoginForm = () => {
               />
             </TableCell>
           </TableRow>
-          <Button style={{ marginLeft: 40  , width:165 }} onClick={handleLogin}>login</Button>
         </TableBody>
       </Table>
+      <Button style={{ marginLeft: 40, marginTop:10  , width: 165 }} onClick={handleLogin}>login</Button>
     </TableContainer>
   )
 }

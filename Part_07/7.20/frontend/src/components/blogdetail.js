@@ -8,7 +8,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Button } from '@material-ui/core'
 import { Link } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import AddIcon from '@material-ui/icons/Add'
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import InputBase from '@material-ui/core/InputBase'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -18,6 +20,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Divider from '@material-ui/core/Divider'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import './blogdetail.css'
 import { loadBlog } from '../reducers/blogReducer'
 
@@ -125,7 +128,9 @@ const BlogDetail = ({ match }) => {
 
   return (
     <div id='blog' >
-      <button style={{ backgroundColor: 'lightblue', border: 'none' }} onClick={() => handleBack()}>back</button>
+      <IconButton style={{ color: 'orange' }} onClick={() => handleBack()}>
+        <ArrowBackIcon />
+      </IconButton>
       <TableContainer component={Paper} elevation={3} style={{ width: '80%' }}>
         <Table className={classesTable.table} aria-label="simple table">
           <TableHead>
@@ -148,13 +153,18 @@ const BlogDetail = ({ match }) => {
             </TableRow>
             <TableRow>
               <TableCell component="th" scope="row">
-                <Button style={likesButonStyle} onClick={() => handleUpdateLikes(blog)}>{blog.likes} likes</Button>
+                {blog.likes} likes
+                <IconButton onClick={() => handleUpdateLikes(blog)}>
+                  <FavoriteBorderIcon />
+                </IconButton>
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
-      <button style={{ backgroundColor: 'lightgray', border: 'none' }} onClick={() => handleRemove(blog)}>remove</button>
+      <IconButton onClick={() => handleRemove(blog)}>
+        <DeleteForeverIcon />
+      </IconButton>
       <div className={classesList.root} style={{ marginTop: 50, paddingLeft: 10 }}>
         <h4>comments:</h4>
         <form onSubmit={handleComment}>
