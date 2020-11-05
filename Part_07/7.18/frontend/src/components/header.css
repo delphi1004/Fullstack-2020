@@ -1,0 +1,31 @@
+#header {
+  background-color: #282c34;
+  height: 40px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: top;
+  color: white;
+  font-size: medium;
+}
+
+.link{
+  padding-left: 10px;
+  padding-right: 10px;
+  color:white;
+  text-decoration: none;
+  font-size: medium;
+}
+
+.link:hover{
+  color:orange;
+}
+
+.link:a:active{
+  color:orange;
+}
+
+.active{
+  color:orange;
+}

@@ -1,0 +1,10 @@
+#usersblog {
+  padding-top:50px;
+  padding-left: 30px;
+  font-size: medium;
+}
+
+.MuiButtonBase-root {
+  text-transform: none;
+  justify-content: left;
+}
