@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
@@ -7,7 +5,6 @@ import Blogs from './components/blogs'
 import BlogDetail from './components/blogdetail'
 import './App.css'
 import LoginForm from './components/loginform'
-import Togglabel from './components/togglabel'
 import Notification from './components/notification'
 import { setUserLoggedIn } from './reducers/loggedInUserReducer'
 import Header from './components/header'
@@ -29,14 +26,6 @@ const App = () => {
       }
     }
   }, [])
-
-  const UserLoginForm = () => (
-    <div style={{ paddingTop: 10, paddingLeft: 10 }}>
-      <Togglabel buttonLabel='login'>
-        <LoginForm />
-      </Togglabel>
-    </div >
-  )
 
   return (
     <Router>
