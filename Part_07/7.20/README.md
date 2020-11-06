@@ -5,5 +5,5 @@
 <img src="4.png" width="1024" title="screenshot">
 <img src="4-1.png" width="1024" title="screenshot">
 <img src="4-2.png" width="1024" title="screenshot">
-<img src="8.png" width="1024" title="screenshot">
-<img src="9.png" width="1024" title="screenshot">
+<img src="5.png" width="1024" title="screenshot">
+<img src="6.png" width="1024" title="screenshot">
