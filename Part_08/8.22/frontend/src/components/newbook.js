@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ADD_BOOK, ALL_AUTHORS, ALL_BOOKS } from './queries'
+import { ADD_BOOK, ALL_GENRES, BOOKS_BY_GENRE } from './queries'
 import { useMutation } from '@apollo/client'
 
 const NewBook = (props) => {
@@ -9,14 +9,58 @@ const NewBook = (props) => {
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
   const [AddBook] = useMutation(ADD_BOOK, {
-    refetchQueries: [{ query: ALL_AUTHORS }]
+
+    refetchQueries: [{ query: ALL_GENRES },
+    { query: BOOKS_BY_GENRE, variables: { genre: '' } }],
+
+    update: (store, response) => {
+      const dataInStore = store.readQuery({ query: BOOKS_BY_GENRE, variables: { genre: props.userFavoriteGenre } })
+      if (response.data.addBook.genres.includes(props.userFavoriteGenre)) {
+        store.writeQuery({
+          query: BOOKS_BY_GENRE,
+          variables: { genre: props.userFavoriteGenre },
+          data: {
+            ...dataInStore,
+            booksByGenre: [...dataInStore.booksByGenre, response.data.addBook]
+          }
+        })
+      }
+
+      const dataAllBooksInStore = store.readQuery({ query: BOOKS_BY_GENRE, variables: { genre: '' } })
+      store.writeQuery({
+        query: BOOKS_BY_GENRE,
+        variables: { genre: '' },
+        data: {
+          ...dataAllBooksInStore,
+          booksByGenre: [...dataAllBooksInStore.booksByGenre, response.data.addBook]
+        }
+      })
+
+      if (response.data.addBook.genres.includes(props.selectedGenre)) {
+        const dataSelectedBooksInStore = store.readQuery({ query: BOOKS_BY_GENRE, variables: { genre: props.selectedGenre } })
+        store.writeQuery({
+          query: BOOKS_BY_GENRE,
+          variables: { genre: props.selectedGenre },
+          data: {
+            ...dataSelectedBooksInStore,
+            booksByGenre: [...dataSelectedBooksInStore.booksByGenre, response.data.addBook]
+          }
+        })
+      }
+    },
+
+    onError: (error) => {
+      props.setError(error.graphQLErrors[0].message)
+    },
+
   })
+
 
   if (!props.show) {
     return null
   }
 
-  const submit =  async (event) => {
+  const submit = async (event) => {
     event.preventDefault()
 
     console.log(`add book...${title} , ${published} , ${author} ,  ${genres}`)

@@ -51,7 +51,9 @@ const typeDefs = gql`
     bookCount : Int!
     authorCount : Int!
     allAuthors: [Author!]!
-    allBooks(genre:String): [Book!]!
+    allBooks: [Book!]!
+    allGenres: [String!]
+    booksByGenre(genre:String!) : [Book!]!
     findBookByAuthor(name:String) : [Book!]
     findBookByTitle(title:String!) :[Book!]
   }
@@ -91,7 +93,7 @@ const resolvers = {
     allAuthors: async (root, args, context) => {
 
       const authors = await Author.find({})
-     
+
       return authors.map(author => {
         author.bookCount = Book.find({ author: { $in: author.id } }).countDocuments()
         return author
@@ -100,9 +102,30 @@ const resolvers = {
 
     allBooks: async (root, args, context) => {
       try {
+        return await Book.find({}).populate('author')
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
+    },
+    allGenres: async (root, args, context) => {
+      try {
+        const books = await Book.find({})
+        const genres = ([...new Set([].concat.apply([], books.map(book => book.genres)))])
+        return genres
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
+    },
+    booksByGenre: async (root, args, context) => {
+      console.log(args)
+      try {
         if (args.genre) {
           return await Book.find({ genres: { $in: args.genre } }).populate('author')
-        }else{
+        } else {
           return await Book.find({}).populate('author')
         }
       } catch (error) {
@@ -155,7 +178,11 @@ const resolvers = {
       console.log(args)
 
       if (!context.currentUser) {
-        throw new AuthenticationError("not authenticated")
+        throw new AuthenticationError('not authenticated')
+      }
+
+      if (args.genres.length <= 0) {
+        throw new UserInputError('you missed genres')
       }
 
       try {

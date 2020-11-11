@@ -12,6 +12,7 @@ const App = () => {
   const [page, setPage] = useState('')
   const [token, setToken] = useState(null)
   const [userFavoriteGenre, setUserFavoriteGenre] = useState()
+  const [selectedGenre, setSelectedGenre] = useState('')
   const client = useApolloClient()
 
   useEffect(() => {
@@ -64,11 +65,11 @@ const App = () => {
       />
 
       <Books
-        show={page === 'books'}
+        show={page === 'books'} setSelectedGenre = {setSelectedGenre}
       />
 
       <NewBook
-        show={page === 'add'}
+        show={page === 'add'} setError={notify} userFavoriteGenre = {userFavoriteGenre} selectedGenre = {selectedGenre}
       />
 
       <Recommend
