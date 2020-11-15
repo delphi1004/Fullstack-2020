@@ -1,0 +1,28 @@
+{
+  "name": "excercise.9.08",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "dev": "ts-node-dev index.ts",
+    "lint": "eslint --ext .ts .",
+    "start": "node build/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.9",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
+    "eslint": "^7.13.0",
+    "ts-node": "^9.0.0",
+    "ts-node-dev": "^1.0.0",
+    "typescript": "^4.0.5"
+  }
+}
