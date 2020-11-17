@@ -22,7 +22,8 @@
     "jest": "^26.5.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.10",
-    "mongoose-unique-validator": "^2.0.3"
+    "mongoose-unique-validator": "^2.0.3",
+    "nodemon": "^2.0.6"
   },
   "devDependencies": {
     "supertest": "^5.0.0"
