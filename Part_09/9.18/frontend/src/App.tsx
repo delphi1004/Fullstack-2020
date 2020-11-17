@@ -21,7 +21,6 @@ const App: React.FC = () => {
           `${apiBaseUrl}/patients`
         );
          dispatch(setPatientList(patientListFromApi));
-        //dispatch({ type: "SET_PATIENT_LIST", payload: patientListFromApi });
       } catch (e) {
         console.error(e);
       }
