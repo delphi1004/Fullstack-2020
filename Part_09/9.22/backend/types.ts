@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 
 export enum Gender {
-  Male = 0,
+  Male,
   Female,
   Other
 }
@@ -53,16 +53,16 @@ export interface HospitalEntry extends BaseEntry {
   discharge?:Discharge;
 }
 
-export type Entry =  HealthCheckEntry | OccupationalHealthCareEntry | HospitalEntry;
+export type EntryType =  Array<HealthCheckEntry | OccupationalHealthCareEntry | HospitalEntry>;
 
 export interface Patient {
   id: string;
   name: string;
   ssn: string;
   occupation: string;
-  gender: number;
-  dateOfBirth?: string;
-  entries: Array<Entry>;
+  gender: Gender;
+  dateOfBirth: string;
+  entries?: EntryType;
 }
 
 export type PublicPatient = Omit<Patient, 'ssn'>;
