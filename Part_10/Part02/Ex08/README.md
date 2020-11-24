@@ -1,3 +1,3 @@
 # The screenshot of 10.08
- <img src = "Screenshot.10.08.png">
+ <img src = "Screenshot.10.08.png" width = "400">
 
