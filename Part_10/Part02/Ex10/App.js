@@ -4,7 +4,7 @@ import { NativeRouter } from 'react-router-native';
 
 const App = () => {
   return (
-    <NativeRouter style={{ fontFamily: 'Cochin' }}>
+    <NativeRouter>
       <Main />
     </NativeRouter>
   );
