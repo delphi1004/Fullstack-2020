@@ -33,7 +33,6 @@ export const RepositoryListContainer = ({ repositories, onPress }) => {
   );
 };
 
-
 const RepositoryList = () => {
   const { repositories } = useRepositories();
   const history = useHistory();
