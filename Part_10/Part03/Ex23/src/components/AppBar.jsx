@@ -47,6 +47,8 @@ const AppBar = () => {
     }
   }, [result.data]);
 
+  console.log('appbar');
+
   const signOut = async () => {
     await authStorage.removeAccessToken();
     apolloClient.resetStore();
@@ -64,6 +66,12 @@ const AppBar = () => {
           !userAuthorised &&
           <Link to="/SignIn" component={TouchableOpacity} activeOpacity={0.8}>
             <Text style={styles.menues} >Sign in</Text>
+          </Link>
+        }
+        {
+          !userAuthorised &&
+          <Link to="/SignUP" component={TouchableOpacity} activeOpacity={0.8}>
+            <Text style={styles.menues} >Sign up</Text>
           </Link>
         }
         {
