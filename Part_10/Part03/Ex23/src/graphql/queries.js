@@ -83,25 +83,25 @@ query repository($id:ID!) {
     }
   }
 }`
-  ;
+;
 
 export const GET_REPOSITORIES = gql`
-query {
-  repositories{
-    edges{
+query repositories($orderDirection:OrderDirection , $orderBy:AllRepositoriesOrderBy){
+  repositories(orderDirection:$orderDirection , orderBy:$orderBy){
+     edges{
       node{
-        id
-        fullName
-        description
-        language
-        forksCount
-        forksCount
-        stargazersCount
-        ratingAverage
-        reviewCount
-        ownerAvatarUrl
-      }
+          id
+            fullName
+            description
+            language
+            forksCount
+            forksCount
+            stargazersCount
+            ratingAverage
+            reviewCount
+            ownerAvatarUrl
+          }
+        }
     }
-  }
 } 
 `;

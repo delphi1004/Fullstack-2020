@@ -2,8 +2,8 @@ import 'dotenv/config';
 
 export default {
   "expo": {
-    "name": "Ex22",
-    "slug": "Ex22",
+    "name": "Ex23",
+    "slug": "Ex23",
     "extra": {
       // eslint-disable-next-line no-undef
       "uri": process.env.APOLLO_URI,
