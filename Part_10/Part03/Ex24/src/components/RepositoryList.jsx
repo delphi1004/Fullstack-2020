@@ -6,6 +6,7 @@ import { useHistory } from "react-router-native";
 import RNPickerSelect from 'react-native-picker-select';
 import { Chevron } from 'react-native-shapes';
 import { Searchbar } from 'react-native-paper';
+import { useDebouncedCallback } from 'use-debounce';
 
 const styles = StyleSheet.create({
   separator: {
@@ -22,7 +23,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'silver',
     color: 'black',
     backgroundColor: 'white',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 30,
   },
   inputAndroid: {
     fontSize: 16,
@@ -32,7 +33,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: 'purple',
     borderRadius: 8,
     color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    paddingRight: 30,
   },
   iconContainer: {
     top: 17,
@@ -42,133 +43,79 @@ const pickerSelectStyles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export class RepositoryListContainer extends React.Component {
+export const RepositoryListContainer = ({ repositories, onPress, onOrderSelected, onSearcKeyword }) => {
+  const [selected, setSelected] = useState('latest');
+  const [search, setSearch] = React.useState('');
+  const repositoryItems = repositories
+    ? repositories.edges.map(node => node.node)
+    : [];
+  const debounced = useDebouncedCallback(
+    (value) => {
+      onSearcKeyword(value);
+    },
+    500
+  );
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: 'latest',
-      search: ''
-    };
-  }
-
-  OrderingMenu = () => {
+  const OrderingMenu = () => {
     return (
-      <View>
-        <Searchbar
-          placeholder="Search"
-          onChangeText={(value) => { this.setState({ search: value }); }}
-          value={this.state.search}
-        />
-        {/* <RNPickerSelect style={pickerSelectStyles}
-          onValueChange={(value) => { this.setState({ selected: value }); this.props.onOrderSelected(value); }}
-          value={this.state.selected}
-          placeholder={{ label: 'select sorting option', value: null, color: 'blue', }}
-          items={[
-            { label: 'Latest repositories', value: 'latest' },
-            { label: 'Highest rated repositories', value: 'highest' },
-            { label: 'Lowest rated repositories', value: 'lowest' },
-          ]}
-          Icon={() => {
-            return <Chevron size={1.5} color="gray" />;
-          }}
-        /> */}
-      </View>
-    );
-  }
-
-  render() {
-    const repositoryItems = this.props.repositories
-      ? this.props.repositories.edges.map(node => node.node)
-      : [];
-    return (
-      <FlatList
-        data={repositoryItems}
-        ItemSeparatorComponent={ItemSeparator}
-        keyExtractor={(item) => item.id}
-        ListHeaderComponent={() => <this.OrderingMenu />}
-        // renderItem={({ item }) => {
-        //   return (
-        //     <TouchableOpacity onPress={() => this.props.onPress(item)}>
-        //       <RepositoryItem item={item} />
-        //     </TouchableOpacity>
-        //   );
-        // }}
+      <RNPickerSelect style={pickerSelectStyles}
+        onValueChange={(value) => { setSelected(value); onOrderSelected(value); }}
+        value={selected}
+        placeholder={{ label: 'select sorting option', value: null, color: 'blue', }}
+        items={[
+          { label: 'Latest repositories', value: 'latest' },
+          { label: 'Highest rated repositories', value: 'highest' },
+          { label: 'Lowest rated repositories', value: 'lowest' },
+        ]}
+        Icon={() => {
+          return <Chevron size={1.5} color="gray" />;
+        }}
       />
     );
-  }
+  };
 
+  return (
+    <FlatList
+      data={repositoryItems}
+      ItemSeparatorComponent={ItemSeparator}
+      keyExtractor={(item) => item.id}
+      ListHeaderComponent={
+        (
+          <View>
+            <Searchbar
+              placeholder="Search"
+              onChangeText={(value) => { setSearch(value); debounced.callback(value); }}
+              value={search}
+            />
+            <OrderingMenu />
+          </View>
+        )
+      }
 
-
-
-
-
-
-
-
-
-
-
-}
-
-
-// export const RepositoryListContainer = ({ repositories, onPress, onOrderSelected }) => {
-//   const [selected, setSelected] = useState('latest');
-//   const [search, setSearch] = React.useState('');
-//   const repositoryItems = repositories
-//     ? repositories.edges.map(node => node.node)
-//     : [];
-
-//   const OrderingMenu = () => {
-//     return (
-//       <View>
-//         <Searchbar
-//           placeholder="Search"
-//           onChangeText={(value) => { setSearch(value);}}
-//           value={search}
-//         />
-//         <RNPickerSelect style={pickerSelectStyles}
-//           onValueChange={(value) => { setSelected(value); onOrderSelected(value); }}
-//           value={selected}
-//           placeholder={{ label: 'select sorting option', value: null, color: 'blue', }}
-//           items={[
-//             { label: 'Latest repositories', value: 'latest' },
-//             { label: 'Highest rated repositories', value: 'highest' },
-//             { label: 'Lowest rated repositories', value: 'lowest' },
-//           ]}
-//           Icon={() => {
-//             return <Chevron size={1.5} color="gray" />;
-//           }}
-//         />
-//       </View>
-//     );
-//   };
-
-//   return (
-//     <FlatList
-//       data={repositoryItems}
-//       ItemSeparatorComponent={ItemSeparator}
-//       keyExtractor={(item) => item.id}
-//       ListHeaderComponent={() => <OrderingMenu />}
-//       renderItem={({ item }) => {
-//         return (
-//           <TouchableOpacity onPress={() => onPress(item)}>
-//             <RepositoryItem item={item} />
-//           </TouchableOpacity>
-//         );
-//       }}
-//     />
-//   );
-// };
+      renderItem={({ item }) => {
+        return (
+          <TouchableOpacity onPress={() => onPress(item)}>
+            <RepositoryItem item={item} />
+          </TouchableOpacity>
+        );
+      }}
+    />
+  );
+};
 
 const RepositoryList = () => {
   const [orderDirection, setOrderDirection] = useState(1);
   const [orderBy, setOrderBy] = useState(0);
-  const { repositories } = useRepositories(orderDirection, orderBy);
+  const [searchKeyword, setSearchKeyword] = useState(0);
+  const { repositories } = useRepositories(orderDirection, orderBy, searchKeyword);
   const history = useHistory();
 
   const onPress = (item) => {
     history.push(`/repository/${item.id}`);
+  };
+
+  const onSearcKeyword = (searchKeyword) => {
+    setSearchKeyword(searchKeyword);
   };
 
   const onOrderSelected = (value) => {
@@ -180,7 +127,7 @@ const RepositoryList = () => {
   };
 
   return (
-    <RepositoryListContainer repositories={repositories} onPress={onPress} onOrderSelected={onOrderSelected} />
+    <RepositoryListContainer repositories={repositories} onPress={onPress} onOrderSelected={onOrderSelected} onSearcKeyword={onSearcKeyword} />
   );
 };
 

@@ -86,8 +86,8 @@ query repository($id:ID!) {
 ;
 
 export const GET_REPOSITORIES = gql`
-query repositories($orderDirection:OrderDirection , $orderBy:AllRepositoriesOrderBy){
-  repositories(orderDirection:$orderDirection , orderBy:$orderBy){
+query repositories($orderDirection:OrderDirection , $orderBy:AllRepositoriesOrderBy , $searchKeyword:String){
+  repositories(orderDirection:$orderDirection , orderBy:$orderBy , searchKeyword:$searchKeyword){
      edges{
       node{
           id
