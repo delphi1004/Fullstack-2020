@@ -111,6 +111,7 @@ const RepositoryList = () => {
   const history = useHistory();
 
   const onPress = (item) => {
+    console.log(item.id);
     history.push(`/repository/${item.id}`);
   };
 
