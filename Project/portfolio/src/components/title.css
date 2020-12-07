@@ -1,0 +1,52 @@
+#titleContainer {
+    width:100%;
+    height:100%;
+}
+
+.title{
+  visibility: none;
+  font-family: 'Roboto Slab';
+  font-size: 18px;
+ -webkit-animation: 1s ease 0s normal forwards 1 titleFadein;
+  animation: 1s ease 0s normal forwards 1 titleFadein;
+}
+
+@keyframes titleFadein{
+    0% { opacity:0;margin-top:40vh}
+    66% { opacity:0; }
+    100% { opacity:1; margin-top:30vh}
+}
+
+@-webkit-keyframes titleFadein{
+    0% { opacity:0; }
+    66% { opacity:0; }
+    100% { opacity:1; }
+}
+
+.description{
+  margin: 0;
+  color:white;
+  font-family: 'Roboto';
+  font-size: 55px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+   -webkit-animation: 1.2s ease 0s normal forwards 1 descriptionFadein;
+  animation: 1.2s ease 0s normal forwards 1 descriptionFadein;
+}
+
+@keyframes descriptionFadein{
+    0% { opacity:0 ; margin-right: 50vh;}
+    66% { opacity:0; }
+    100% { opacity:1;margin-right: 0vh}
+}
+
+@keyframes descriptionFadein{
+    0% { opacity:0 ; margin-right: 50vh;}
+    66% { opacity:0; }
+    100% { opacity:1;margin-right: 0vh}
+}
+
+
+
+
+
