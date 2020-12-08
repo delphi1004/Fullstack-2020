@@ -18,9 +18,9 @@
 }
 
 @-webkit-keyframes titleFadein{
-    0% { opacity:0; }
+    0% { opacity:0;margin-top:40vh}
     66% { opacity:0; }
-    100% { opacity:1; }
+    100% { opacity:1; margin-top:30vh}
 }
 
 .description{

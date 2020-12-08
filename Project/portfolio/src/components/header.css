@@ -1,7 +1,8 @@
 #header{
   height:100px;
   overflow: hidden;
-  width:100%;
+  width:100vw;
+  z-index: 1;
 }
 
 #mainMenu {
@@ -29,7 +30,7 @@ a {
 
 .active {
   color:white;
-  transition: all 0.3s ease-in-out 0s;
+  transition: all 2.5s ease-out 0s;
 }
 
 a::before {
