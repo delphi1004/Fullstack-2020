@@ -31,12 +31,14 @@
 } 
 
 #aboutTitle{
+  color:black;
+  opacity: 0;
   font-size: 25px;
    -webkit-animation: 1.5s ease-out 0s normal forwards 1 aboutTitle;
    animation: 1.5s ease-out 0s normal forwards 1 aboutTitle;
 }
 
 @keyframes aboutTitle {
-  0% {width: 0vh;}
-  100% {width:40%;}
+  0% {width: 0vh;opacity: 0;}
+  100% {width:40%;opacity: 1;}
 } 
