@@ -19,22 +19,23 @@
 
 .views-appear,
 .views-enter{
-  opacity: 0;
-  z-index: 1;
+  opacity: 1;
+  left: -100vw;
 }
 
 .views-appear.active,
 .views-enter.views-enter-active{
-  opacity: 1;
-  transition: opacity 1s ease-out;
+  left:0;
+  transition: all 0.6s ease-in-out
 }
 
 .views-exit{
   opacity:0;
-  transition: opacity 0.5s ease-out;
+  margin-left:100vw;
+  transition: all 2s ease-in-out
 }
 
-.views-exit.views-exit-active{
+/* .views-exit.views-exit-active{
   opacity: 0;
-  transition: opacity 0.5s ease-out;
-}
+  transition: all 0.5s ease-out;
+} */

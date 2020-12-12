@@ -15,7 +15,7 @@ const RouterViewer = () => {
 
   return (
     <TransitionGroup mode = {'out-in'}>
-      <CSSTransition classNames='views' key={location.key} timeout={currentMenu >= 0 ? 0:1500}>
+      <CSSTransition classNames='views' key={location.key} timeout={currentMenu >= 0 ? 0:1300}>
         <Switch location = {location}>
           <Route exact path='/about' component={About}></Route>
           <Route exact path='/works' component={Works}></Route>

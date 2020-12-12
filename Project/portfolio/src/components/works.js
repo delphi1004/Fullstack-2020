@@ -4,7 +4,7 @@ import { setCurrentMenu, setCurrentWorksMenu } from '../reducer/statusReducer'
 import { useSelector } from 'react-redux'
 import { global } from '../data/global'
 import './works.css'
-import ThumbnailContainer from './thumbnailContainer'
+import CardContainer from './card/cardContainer'
 
 const Works = () => {
   const dispatch = useDispatch()
@@ -40,7 +40,7 @@ const Works = () => {
         </p>
       </div>
       {worksMenu !== global.menu.idle &&
-        <ThumbnailContainer />
+        <CardContainer />
       }
     </div >
   )

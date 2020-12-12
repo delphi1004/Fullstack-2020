@@ -21,8 +21,9 @@
   font-weight: lighter;
   text-align: justify;
   text-indent: 1em;
-  -webkit-animation: 2s ease-out 0s normal forwards 1 aboutDescription;
-  animation: 2s ease-out 0s normal forwards 1 aboutDescription;
+  -webkit-animation: 3s ease-out 0s normal forwards 1 aboutDescription;
+  animation: 3s ease-out 0s normal forwards 1 aboutDescription;
+  animation-delay: 0.3s;
 }
 
 @keyframes aboutDescription {
@@ -36,6 +37,7 @@
   font-size: 25px;
    -webkit-animation: 1.5s ease-out 0s normal forwards 1 aboutTitle;
    animation: 1.5s ease-out 0s normal forwards 1 aboutTitle;
+   animation-delay: 0.3s;
 }
 
 @keyframes aboutTitle {
