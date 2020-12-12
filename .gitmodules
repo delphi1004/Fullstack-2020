@@ -1,3 +1,6 @@
 [submodule "Part_11/11.02"]
 	path = Part_11/11.02
 	url = https://github.com/delphi1004/full-stack-open-pokedex.git
+[submodule "Part_11/full-stack-open-pokedex"]
+	path = Part_11/full-stack-open-pokedex
+	url = https://github.com/delphi1004/full-stack-open-pokedex.git
