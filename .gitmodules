@@ -1,1 +1,4 @@
 
+[submodule "full-stack-open-pokedex"]
+	path = full-stack-open-pokedex
+	url = git@github.com:delphi1004/full-stack-open-pokedex.git
