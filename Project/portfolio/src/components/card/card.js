@@ -5,27 +5,19 @@ import React from 'react'
 // import { global } from '../data/global'
 import './card.css'
 
-const Card = ({ info }) => {
+const Card = ({ index, info, resourcePath }) => {
+  const delay = `${index / 10}s`
+  const thumbnailImage = `${resourcePath}/thumbnail/${info.thumbnailImage}.png`
 
-  const test = require('../../data/resource/works/small/shape_01.png')
-  console.log(test,info)
-
-  // return (
-  //   <div id = 'card'>
-  //     <div id = 'cardImage'>
-  //       <h1>{info.thumbnailImage}</h1>
-  //       <img width='500' height = '500' src = {test} alt = 'image'/>
-  //     </div>
-  //     <div id = 'cardTitleContainer'>
-  //       <p id = 'title'>{info.title}</p>
-  //       <p id=  'subTitle'>{info.subTitle}</p>
-  //     </div>
-  //   </div>
-  // )
+  //console.log(`${resourcePath}/thumbnail/${info.thumbnailImage}`, cardTitleContainer,index)
 
   return (
-    <div>
-      <img src = {test} style = {{ width:'100%' }} alt = 'image'/>
+    <div id='card' style={{ '--delay' : delay } }>
+      <img id = 'thumbnailImage' src = {thumbnailImage} alt = 'image'/>
+      <div id = {'cardTitleContainer'}>
+        <p id = 'title'>{info.title}</p>
+        <p id= 'subTitle'>{info.subTitle}</p>
+      </div>
     </div>
   )
 }

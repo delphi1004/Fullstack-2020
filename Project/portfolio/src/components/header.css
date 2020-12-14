@@ -1,6 +1,7 @@
 #header{
   height:100px;
   width:100vw;
+  position: fixed;
   z-index: 2;
 }
 

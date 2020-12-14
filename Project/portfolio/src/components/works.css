@@ -2,11 +2,11 @@
   --transitionTime:0.7s;
 }
 
-
 #worksContainer{
     background-color: #3a5875;
     width:100%;
     height:100%;
+    margin-bottom: 100px;
     top:0;
     position: absolute;
     z-index: -1;
@@ -22,7 +22,7 @@
   position:fixed;
   right: 0%;
   text-align: left;
-  margin-top: 200px;
+  margin-top: 150px;
   width:420px;
   height:300px;
   font-size: 40px;
@@ -37,7 +37,6 @@
   margin: 0;
   margin-bottom: 20px;
   position: relative;
-  overflow: hidden;
   opacity: 0;
   right:-20vw;
   -webkit-animation: var(--transitionTime) ease-in-out 0s normal forwards 1 menu;
@@ -49,7 +48,6 @@
   margin: 0;
   margin-bottom: 20px;
   position: relative;
-  overflow: hidden;
   opacity: 0;
   -webkit-animation: var(--transitionTime) ease-in-out 0s normal forwards 1 menu;
   animation: var(--transitionTime) ease-in-out 0s normal forwards 1 menu;
@@ -60,7 +58,6 @@
   margin: 0;
   margin-bottom: 20px;
   position: relative;
-  overflow: hidden;
   opacity: 0;
   right:-20vw;
   -webkit-animation: var(--transitionTime) ease-in-out 0s normal forwards 1 menu;

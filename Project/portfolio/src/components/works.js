@@ -16,7 +16,10 @@ const Works = () => {
   }, [])
 
   const clickHandler = (id) => {
-    dispatch(setCurrentWorksMenu(id))
+    dispatch(setCurrentWorksMenu(global.menu.idle))
+    setTimeout(() => {
+      dispatch(setCurrentWorksMenu(id))
+    }, 1)
   }
 
   return (
@@ -40,7 +43,7 @@ const Works = () => {
         </p>
       </div>
       {worksMenu !== global.menu.idle &&
-        <CardContainer />
+        <CardContainer worksMenu={worksMenu}/>
       }
     </div >
   )

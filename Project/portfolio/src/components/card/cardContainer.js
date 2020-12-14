@@ -5,14 +5,21 @@ import React from 'react'
 // import { global } from '../data/global'
 import './cardContainer.css'
 import Card from './card.js'
-import { Data_Generative } from '../../data/global'
+import { global } from '../../data/global'
+import { Data_Generative , Data_Interactive } from '../../data/global'
 
-const CardContainer = () => {
+const CardContainer = ({ worksMenu }) => {
+  let data
+
+  switch (worksMenu) {
+    case global.worksMenu.generativeArt: data = Data_Generative; break
+    case global.worksMenu.interactiveArt: data = Data_Interactive; break
+  }
 
   return (
     <div id='cardContainer'>
-      {Data_Generative.contents.map((info,index) =>
-        <Card className='wrap' key={index} info={info} resourcePath={Data_Generative.imagePath}/>
+      {data.contents.map((info,index) =>
+        <Card className='wrap' key={index} index={index+1} info={info} resourcePath={Data_Generative.resourcePath}/>
       )
       }
     </div>
