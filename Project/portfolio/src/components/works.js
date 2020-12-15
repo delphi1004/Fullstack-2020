@@ -43,8 +43,9 @@ const Works = () => {
         </p>
       </div>
       {worksMenu !== global.menu.idle &&
-        <CardContainer worksMenu={worksMenu}/>
+        <CardContainer worksMenu={worksMenu} />
       }
+      <h1>GENERATIVE ART</h1>
     </div >
   )
 }

@@ -6,10 +6,10 @@ import React from 'react'
 import './card.css'
 
 const Card = ({ index, info, resourcePath }) => {
-  const delay = `${index / 10}s`
+  const delay = `${index / 7}s`
   const thumbnailImage = `${resourcePath}/thumbnail/${info.thumbnailImage}.png`
 
-  //console.log(`${resourcePath}/thumbnail/${info.thumbnailImage}`, cardTitleContainer,index)
+  console.log(`${resourcePath}/thumbnail/${info.thumbnailImage}`, thumbnailImage,index)
 
   return (
     <div id='card' style={{ '--delay' : delay } }>

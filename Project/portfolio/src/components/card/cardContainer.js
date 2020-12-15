@@ -18,6 +18,7 @@ const CardContainer = ({ worksMenu }) => {
 
   return (
     <div id='cardContainer'>
+      {/* <p id = 'works-words'>{data.words}</p> */}
       {data.contents.map((info,index) =>
         <Card className='wrap' key={index} index={index+1} info={info} resourcePath={Data_Generative.resourcePath}/>
       )

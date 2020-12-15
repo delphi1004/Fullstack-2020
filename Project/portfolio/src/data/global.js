@@ -17,6 +17,7 @@ export const global = {
 
 export const Data_Generative = {
   resourcePath: './images/works',
+  words: '“This may sound paradoxical, but the machine, which is thought to be cold and inhuman, can help to realize what is most subjective, unattainable, and profound in a human being.” - Vera Molnar',
   contents: [
     {
       thumbnailImage: 'soundVis_01',
@@ -83,7 +84,7 @@ export const Data_Interactive = {
     {
       thumbnailImage: 'aqua_07',
       contentsImage: ['aqua_01', 'aqua_02', 'aqua_03','aqua_04'],
-      title: 'Digital Aquarium',
+      title: 'Digital aquarium',
       subTitle: 'Aquarium project for Helsinki children\'s hospital',
       tool: 'Arduino , Rotary sensors , Processing',
       description: 'The project name is “Game Together!” In modern society, the computer game has been growing hugely. Related in this industry, we can find many different types of a game controller such as a keyboard, Nintendo Wii, X-box controller etc. these controllers are well designed for one person to control their character in the game. It is handy and efficient. what happens if the game controller becomes an uncomfortable thing to play the game? what happens if only two people should co-work together to play a game? is it good for their relationship? or not?. Hence I designed a game controller which has a button and wheel on a box. So one controller only related in to move x-axis, and other is related in y-axis only. People should turn the wheels to move a character and archive the goal. I just want to give people new experience which is quite different than the conventional game controller.'

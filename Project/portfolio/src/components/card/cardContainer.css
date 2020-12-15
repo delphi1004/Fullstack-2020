@@ -1,17 +1,19 @@
-:root {
-  --transitionTime:0.7s;
-}
 
 #cardContainer{
-    /* background-color: silver; */
-    /* width:40%; */
-    /* margin-top: 30%; */
     position: absolute;
-    top:500px;
+    top: 450px;
     margin-right:500px;
     margin-left: 300px;
     display: flex;
     flex-direction: row;
     flex-flow: row wrap;
     justify-content:flex-start;
+}
+
+#works-words{
+    padding-left: 40%;
+    padding-right: 10px;
+    text-align: right;
+    font-size: 20px;
+    font-weight: lighter;
 }
