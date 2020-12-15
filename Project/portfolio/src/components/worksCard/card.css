@@ -32,7 +32,7 @@
 #thumbnailImage{
     filter: brightness(100%);
     margin-left: -90px;
-    width:400px;
+    width:4 00px;
     transition: all 0.3s ease-in-out;
 }
 

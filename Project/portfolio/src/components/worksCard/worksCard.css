@@ -1,0 +1,194 @@
+:root {
+    --transitionTime: 0.7s;
+    --margin-horizontal: 18px;
+    --margin-vertical : 20px;
+}
+
+#worksCard {
+  cursor: pointer;
+  overflow: hidden;
+  width:285px;
+  opacity: 0;
+  margin:10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+  background-color: var(--backgroundColor);
+  -webkit-animation: var(--transitionTime) ease-in-out 0s normal forwards 1 worksCard;
+  animation: var(--transitionTime) ease-in-out 0s normal forwards 1 worksCard;
+  animation-delay:var(--delay);
+  transition: all 0.1s ease-in-out;
+}
+
+@keyframes worksCard {
+  0% {opacity: 0;height:414px}
+  100% {opacity: 1;height:444px}
+}
+
+#thumbnailImage{
+  z-index: 1;
+  opacity: 0;
+  position: absolute;
+  filter: brightness(100%);
+  margin-left: -90px;
+  top:170px;
+  width:245px;
+  margin-left: var(--margin-horizontal);
+  margin-right: var(--margin-horizontal);
+  transition: all 0.3s ease-in-out;
+}
+
+#works-title{
+  white-space: pre-wrap;
+  display: inline-block;
+  position: absolute;
+  word-break: break-all;
+  padding:0;
+  margin-top:var(--margin-vertical);
+  margin-bottom:var(--margin-vertical);
+  margin-left: var(--margin-horizontal);
+  width:215px;
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+#works-separator{
+  opacity:0;
+  width:0;
+  position: relative;
+  word-break: break-all;
+  padding:0;
+  margin:0;
+  height:1px;
+  top:130px;
+  width:0px;
+  border-bottom: 1px solid white;
+   -webkit-animation: var(--transitionTime) ease-in-out 0s normal forwards 1 separator;
+  animation: var(--transitionTime) ease-in-out 0s normal forwards 1 separator;
+}
+
+@keyframes separator {
+  0% {opacity: 0;width:0px}
+  100% {opacity: 1;width:75px}
+}
+
+@keyframes separator-hide {
+  0% {opacity: 0;width:100px}
+  100% {opacity: 1;width:0px}
+}
+
+#works-description{
+  text-indent: 10px;
+  position: relative;
+  word-break: break-all;
+  padding:0;
+  top:135px;
+  width:245px;
+  height:200px;
+  margin-left: var(--margin-horizontal);
+  margin-right: var(--margin-horizontal);
+  font-size: 13px;
+  text-align: left;
+  font-weight:lighter;
+  line-height: 17px;
+  letter-spacing: 0.7px;
+  transition: all 0.7s;
+}
+
+@keyframes description {
+  0% {opacity: 0}
+  60% {opacity: 0.5}
+  100% {opacity: 1}
+}
+
+#works-author{
+  position: relative;
+  word-break: break-all;
+  padding:0;
+  margin-bottom:var(--margin-vertical);
+  margin-left: var(--margin-horizontal);
+  margin-right: var(--margin-horizontal);
+  text-align: right;
+  font-size: 12px;
+  font-weight:lighter;
+  letter-spacing: 0.5px;
+}
+
+#works-number{
+  padding:0;
+  position: relative;
+  margin-top: 155px;
+  margin-left: var(--margin-horizontal);
+  text-align: left;
+  font-size: 49px;
+  font-weight: 400;
+  letter-spacing: 2.0px;
+  height:0;
+  opacity: 0;
+  -webkit-animation: var(--transitionTime) ease-in-out 0s normal forwards 1 number;
+  animation: var(--transitionTime) ease-in-out 0s normal forwards 1 number;
+  animation-delay:1.5s;
+}
+
+@keyframes number {
+  0% {opacity: 0;height:0px}
+  100% {opacity: 1;height:10px}
+}
+
+#works-vertical-separator{
+  position: relative;
+  word-break: break-all;
+  padding:0;
+  margin:0;
+  width:1px;
+  opacity: 0;
+  height:125px;
+  /* top:-100px; */
+  left:120px;
+  border-left: 1px solid white;
+  -webkit-animation: var(--transitionTime) ease-in-out 0s normal forwards 1 vertical-separator;
+  animation: var(--transitionTime) ease-in-out 0s normal forwards 1 vertical-separator;
+  animation-delay:var(--delay)
+}
+
+@keyframes vertical-separator {
+  0% {opacity: 0;top:0px}
+  100% {opacity: 1;top:-110px}
+}
+
+#works-extraDescription-container{
+  padding:0;
+  position: relative;
+  margin:0;
+  left:140px;
+  top:-220px;
+  width:100px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 1.0px;
+  height:10px;
+}
+
+#worksCard:hover{
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4);
+  transition: all 0.3s ease-in-out;
+}
+
+#worksCard:hover > #thumbnailImage{
+  opacity: 1;
+  width:245px;
+  transition: all 0.5s ease-in-out;
+}
+
+#worksCard:hover > #works-description{
+  opacity: 0;
+  height: 50px;
+  transition: all 0.3s ease-in-out;
+}
+
+#worksCard:hover > #worksCard{
+  top: 50px;
+  transition: all 0.3s ease-in-out;
+}
+

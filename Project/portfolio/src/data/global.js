@@ -91,3 +91,42 @@ export const Data_Interactive = {
     },
   ]
 }
+
+export const Data_WorksMenu_Generative = {
+
+  contents: [
+    {
+      title: 'GENERATIVE  ART',
+      titleImage:'./images/works/thumbnail/ganerative_brush_01.png',
+      description: '“This may sound paradoxical, but the machine, which is thought to be cold and inhuman, can help to realize what is most subjective, unattainable, and profound in a human being.” - Vera Molnar',
+      author: 'Vera Molnar',
+      backgroundColor: '#bf8726',
+      extraDescription: 'Processing openFrameworks Arduino'
+    },
+    {
+      title: 'INTERACTIVE ART',
+      titleImage:'./images/works/thumbnail/interactive_01.png',
+      description: '“If our child doesn’t have time to finish a fish before an appointment, it’s certain that we won’t be leaving the building before the fish is in the aquarium.” - from Helsinki’s New Children’s Hospital',
+      author: 'Vera Molnar',
+      backgroundColor: '#bfa126',
+      extraDescription: 'Processing openFrameworks Arduino OpenCV Kinect sensor'
+    },
+    {
+      title: '3D MODELING',
+      titleImage:'./images/works/thumbnail/3dmodeling_12.png',
+      description: '“Fusion 360 is my favorite 3D modeling tool.”',
+      author: 'Vera Molnar',
+      backgroundColor: '#bfba26',
+      extraDescription: 'Fusion 360 Maya'
+    },
+    {
+      title: 'SOFTWARE',
+      titleImage:'./images/works/thumbnail/software_01.png',
+      description: '“Software architecture design is similar to design a city.”',
+      author: 'Vera Molnar',
+      backgroundColor: '#abbf26',
+      extraDescription: 'Objective-C Swift JavaScript React C C++ C# Node.js'
+    }
+  ],
+  data: Data_Generative
+}
