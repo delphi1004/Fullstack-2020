@@ -1,0 +1,35 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+
+jobs:
+  simple_deployment_pipeline:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Project/portfolio/
+    if: ${{ github.event_name == 'push' }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: npm install
+        run: npm install
+      - name: lint
+        run: npm run eslint
+      - name: Heroku_deployment
+        uses: akhileshns/heroku-deploy@v3.7.8 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "fullstack2020-project" #Must be unique in Heroku
+          heroku_email: "delphi1004@hanmail.net"
+          healthcheck: "https://fullstack2020-project.herokuapp.com/health"
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
