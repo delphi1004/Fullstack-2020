@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  simple_deployment_pipeline:
+  fullstack2020-project_deployment_pipeline:
     runs-on: ubuntu-latest
     defaults:
       run:
