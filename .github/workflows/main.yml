@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: /Project/portfolio/
+        working-directory: ./Project/portfolio/
     if: ${{ github.event_name == 'push' }}
     steps:
       - uses: actions/checkout@v2
@@ -28,8 +28,8 @@ jobs:
         uses: akhileshns/heroku-deploy@v3.7.8 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "fullstack2020-part11" #Must be unique in Heroku
+          heroku_app_name: "fullstack2020-project" #Must be unique in Heroku
           heroku_email: "delphi1004@hanmail.net"
-          healthcheck: "https://fullstack2020-part11.herokuapp.com/health"
+          healthcheck: "https://fullstack2020-project.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
