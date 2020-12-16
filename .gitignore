@@ -5,5 +5,6 @@ Server/
 Test/
 Client/
 build/
+onlyLocal/
 rate-repository-api-master/
 .env
